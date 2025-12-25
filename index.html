@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цифровые волонтеры Тамбовской области | Будущее начинается здесь</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b42f6;
+            --accent: #ff2a6d;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e0f8ff;
+            --card-bg: rgba(16, 18, 42, 0.6);
+            --glass: rgba(255, 255, 255, 0.05);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), #ff8a00);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(123, 66, 246, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 245, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255, 42, 109, 0.05) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 100px;
+            background: radial-gradient(ellipse at center top, rgba(123, 66, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: rgba(224, 248, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 245, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: var(--glass);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .element-1 { width: 100px; height: 100px; top: 20%; right: 20%; animation-delay: 0s; }
+        .element-2 { width: 150px; height: 150px; top: 50%; right: 30%; animation-delay: 2s; }
+        .element-3 { width: 80px; height: 80px; top: 70%; right: 40%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--glass);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 245, 255, 0.3);
+        }
+
+        /* Directions Grid */
+        .directions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .direction-card {
+            text-align: center;
+        }
+
+        .direction-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .direction-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: flex-end;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .project-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(10, 10, 26, 0.9));
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 0.6;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--gradient-accent);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            position: relative;
+        }
+
+        .news-date {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--gradient-accent);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Partners */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .partner-logo {
+            height: 100px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--glass);
+            transition: all 0.3s ease;
+            font-weight: 700;
+            color: var(--primary);
+            backdrop-filter: blur(10px);
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0, 245, 255, 0.2);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass);
+            border-radius: 15px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(5, 5, 16, 0.9);
+            border-top: 1px solid var(--glass);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass);
+        }
+
+        .social-links a:hover {
+            background: var(--gradient);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 26, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-top: 1px solid var(--glass);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .floating-elements {
+                display: none;
+            }
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float-particle 20s infinite linear;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-code-branch"></i>
+                    Цифровые волонтеры
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#directions">Направления</a></li>
+                    <li><a href="#projects">Проекты</a></li>
+                    <li><a href="#news">Новости</a></li>
+                    <li><a href="#partners">Партнеры</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Присоединиться</a></li>
+                </ul>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">ЦИФРОВОЕ БУДУЩЕЕ<br>ТАМБОВСКОЙ ОБЛАСТИ</h1>
+                <p class="hero-subtitle">Мы создаем сообщество технологических энтузиастов, которые делают цифровые технологии доступными для каждого. Присоединяйтесь к движению, меняющему будущее!</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Стать волонтером</a>
+                    <a href="#projects" class="btn btn-secondary">Наши проекты</a>
+                </div>
+                <div class="stats">
+                    <div style="display: flex; gap: 2rem;">
+                        <div>
+                            <h3 style="font-size: 2rem; color: var(--primary);">500+</h3>
+                            <p>Волонтеров</p>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 2rem; color: var(--accent);">50+</h3>
+                            <p>Проектов</p>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 2rem; color: var(--secondary);">10k+</h3>
+                            <p>Участников</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="floating-elements">
+            <div class="floating-element element-1"></div>
+            <div class="floating-element element-2"></div>
+            <div class="floating-element element-3"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">О НАС</h2>
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+                    <div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary);">Наша миссия</h3>
+                        <p style="margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.6;">
+                            Мы верим, что технологии должны быть доступны каждому. Наша цель - преодолеть цифровой разрыв и создать инклюзивное технологическое сообщество в Тамбовской области.
+                        </p>
+                        <p style="font-size: 1.1rem; line-height: 1.6;">
+                            Через просвещение, инновации и сотрудничество мы строим цифровое будущее, где технологии служат развитию человека и общества.
+                        </p>
+                    </div>
+                    <div>
+                        <div style="background: var(--gradient); padding: 2px; border-radius: 20px;">
+                            <div style="background: var(--dark); padding: 2rem; border-radius: 18px;">
+                                <h4 style="color: var(--primary); margin-bottom: 1rem;">Наши ценности</h4>
+                                <ul style="list-style: none;">
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--glass);">🤝 Доступность и инклюзивность</li>
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--glass);">🚀 Инновации и развитие</li>
+                                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--glass);">🌐 Сообщество и сотрудничество</li>
+                                    <li style="padding: 0.5rem 0;">💡 Образование и просвещение</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Directions Section -->
+    <section id="directions" style="background: radial-gradient(ellipse at center, rgba(123, 66, 246, 0.05) 0%, transparent 70%);">
+        <div class="container">
+            <h2 class="section-title">НАПРАВЛЕНИЯ</h2>
+            <div class="directions-grid">
+                <div class="card direction-card">
+                    <div class="direction-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Цифровое просвещение</h3>
+                    <p>Обучение цифровой грамотности всех возрастных групп, от детей до пенсионеров</p>
+                </div>
+                <div class="card direction-card">
+                    <div class="direction-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Кибербезопасность</h3>
+                    <p>Защита от киберугроз и обучение безопасному поведению в цифровом пространстве</p>
+                </div>
+                <div class="card direction-card">
+                    <div class="direction-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Разработка</h3>
+                    <p>Создание цифровых решений для социальных и образовательных проектов</p>
+                </div>
+                <div class="card direction-card">
+                    <div class="direction-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3>VR/AR технологии</h3>
+                    <p>Исследование и внедрение технологий виртуальной и дополненной реальности</p>
+                </div>
+                <div class="card direction-card">
+                    <div class="direction-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Искусственный интеллект</h3>
+                    <p>Изучение и применение AI технологий для решения практических задач</p>
+                </div>
+                <div class="card direction-card">
+                    <div class="direction-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>IT-партнерства</h3>
+                    <p>Сотрудничество с IT-компаниями для развития технологической экосистемы</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">ПРОЕКТЫ</h2>
+            <div class="projects-grid">
+                <div class="project-card" style="background: linear-gradient(45deg, var(--secondary), var(--primary));">
+                    <div class="project-content">
+                        <span class="project-tag">Активный</span>
+                        <h3>ВГодах</h3>
+                        <p>Цифровое просвещение для старшего поколения. Освоение смартфонов, компьютеров и онлайн-сервисов.</p>
+                    </div>
+                </div>
+                <div class="project-card" style="background: linear-gradient(45deg, var(--accent), #ff8a00);">
+                    <div class="project-content">
+                        <span class="project-tag">Соревнования</span>
+                        <h3>Школьная кибериада</h3>
+                        <p>Соревнования по кибергигиене, VR, БПЛА и искусственному интеллекту для школьников.</p>
+                    </div>
+                </div>
+                <div class="project-card" style="background: linear-gradient(45deg, #7b42f6, #b84ef0);">
+                    <div class="project-content">
+                        <span class="project-tag">Образование</span>
+                        <h3>Шаг в IT</h3>
+                        <p>Погружение в IT-профессии для школьников из муниципалитетов области.</p>
+                    </div>
+                </div>
+                <div class="project-card" style="background: linear-gradient(45deg, #00c6ff, #0072ff);">
+                    <div class="project-content">
+                        <span class="project-tag">Безопасность</span>
+                        <h3>W0lV3S_СТF</h3>
+                        <p>Кружок по подготовке к соревнованиям по информационной безопасности.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" style="background: radial-gradient(ellipse at center, rgba(255, 42, 109, 0.05) 0%, transparent 70%);">
+        <div class="container">
+            <h2 class="section-title">НОВОСТИ</h2>
+            <div class="news-grid">
+                <div class="card news-card">
+                    <span class="news-date">15.12.2024</span>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Запуск нового сезона Кибериады</h3>
+                    <p>Открыта регистрация на участие в соревнованиях по кибербезопасности и новым технологиям для школьников.</p>
+                </div>
+                <div class="card news-card">
+                    <span class="news-date">10.12.2024</span>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Волонтеры обучили 100+ пенсионеров</h3>
+                    <p>В рамках проекта "ВГодах" проведено 20 мастер-классов по цифровой грамотности.</p>
+                </div>
+                <div class="card news-card">
+                    <span class="news-date">05.12.2024</span>
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Партнерство с ДепЦифры</h3>
+                    <p>Подписано соглашение о сотрудничестве в области развития цифровых компетенций.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners">
+        <div class="container">
+            <h2 class="section-title">ПАРТНЕРЫ</h2>
+            <div class="partners-grid">
+                <div class="partner-logo">РИТЦ</div>
+                <div class="partner-logo">ДепЦифры</div>
+                <div class="partner-logo">Добро.рф</div>
+                <div class="partner-logo">IT-Парк</div>
+                <div class="partner-logo">Вузы</div>
+                <div class="partner-logo">IT-Компании</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background: radial-gradient(ellipse at center, rgba(0, 245, 255, 0.05) 0%, transparent 70%);">
+        <div class="container">
+            <h2 class="section-title">СТАТЬ ВОЛОНТЕРОМ</h2>
+            <div class="card contact-form">
+                <form>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Имя" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" class="form-control" placeholder="Телефон" required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" required>
+                            <option value="">Выберите направление</option>
+                            <option>Просвещение</option>
+                            <option>Кибербезопасность</option>
+                            <option>Разработка</option>
+                            <option>VR/AR технологии</option>
+                            <option>Искусственный интеллект</option>
+                            <option>Медиа и дизайн</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="4" placeholder="Расскажите о своих навыках и интересах..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Цифровые волонтеры</h3>
+                    <p>Тамбовская область</p>
+                    <p style="margin-top: 0.5rem; opacity: 0.8;">Делаем технологии доступнее для тех, кто в них нуждается</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Контакты</h3>
+                    <p>volunteer@tambov.digital</p>
+                    <p>+7 (XXX) XXX-XX-XX</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Быстрые ссылки</h3>
+                    <p><a href="#about" style="color: inherit; text-decoration: none;">О нас</a></p>
+                    <p><a href="#projects" style="color: inherit; text-decoration: none;">Проекты</a></p>
+                    <p><a href="#news" style="color: inherit; text-decoration: none;">Новости</a></p>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid var(--glass); opacity: 0.6;">
+                <p>&copy; 2024 Цифровые волонтеры Тамбовской области. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Particles background
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                const colors = ['#00f5ff', '#7b42f6', '#ff2a6d'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(10, 10, 26, 0.95)';
+                header.style.backdropFilter = 'blur(20px)';
+            } else {
+                header.style.background = 'rgba(10, 10, 26, 0.8)';
+                header.style.backdropFilter = 'blur(20px)';
+            }
+        });
+    </script>
+</body>
+</html>
